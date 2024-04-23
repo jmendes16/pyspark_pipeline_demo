@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+test/
+
 # C extensions
 *.so
 
@@ -127,6 +129,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+pyspark_pipeline_venv/
 
 # Spyder project settings
 .spyderproject
