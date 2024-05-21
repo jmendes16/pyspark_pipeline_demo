@@ -22,4 +22,4 @@ Code used for demonstrating how you can use pyspark to create a datapipeline
 # you can also download and install PgAdmin from https://www.enterprisedb.com/downloads/postgres-postgresql-downloads 
 # make sure you remember your password as you will need it to access your local database.  
 # you can create a database in PgAdmin by going to object>create>database
-# run pip install pyspark pyarrow pandas in your python virtual environment
+# run pip install pyspark pyarrow pandas python-dotenv in your python virtual environment

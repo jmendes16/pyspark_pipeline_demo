@@ -1,4 +1,14 @@
+import os
 from pyspark.sql import SparkSession
+from dotenv import load_dotenv
+
+# loading in credentials
+load_dotenv()
+
+SUPABASE_USER=os.environ.get("SUPABASE_USER")
+SUPABASE_PASSWORD=os.environ.get("SUPABASE_PASSWORD")
+LOCAL_USER=os.environ.get("LOCAL_USER")
+LOCAL_PASSWORD=os.environ.get("LOCAL_PASSWORD")
 
 spark = SparkSession.builder.master("local[1]").appName("fashion_forward_demo").getOrCreate()
 
@@ -19,8 +29,8 @@ test_query="""WITH member_spend AS
 df = spark.read \
 .format("jdbc") \
 .options(driver="org.postgresql.Driver",
-         user="your_supabase_username",
-         password="your_password",
+         user=SUPABASE_USER,
+         password=SUPABASE_PASSWORD,
          url="jdbc:postgresql://aws-0-eu-west-2.pooler.supabase.com:5432/postgres",
          query=test_query
          ) \
@@ -34,8 +44,8 @@ df.write.mode("overwrite").parquet("test/temp_member_spend.parquet")
 # df = spark.read \
 # .format("jdbc") \
 # .options(driver="org.postgresql.Driver",
-#          user="your_supabase_username",
-#          password="your_password",
+#          user=SUPABASE_USER,
+#          password=SUPABASE_PASSWORD,
 #          url="jdbc:postgresql://aws-0-eu-west-2.pooler.supabase.com:5432/postgres",
 #          dbtable="members"
 #          ) \
@@ -54,8 +64,8 @@ df.write.mode("overwrite").parquet("test/temp_member_spend.parquet")
 # df = spark.read \
 # .format("jdbc") \
 # .options(driver="org.postgresql.Driver",
-#          user="your_supabase_username",
-#          password="your_password",
+#          user=SUPABASE_USER,
+#          password=SUPABASE_PASSWORD,
 #          url="jdbc:postgresql://aws-0-eu-west-2.pooler.supabase.com:5432/postgres",
 #          dbtable="members"
 #          ) \
@@ -65,8 +75,8 @@ df.write.mode("overwrite").parquet("test/temp_member_spend.parquet")
 # df.write.mode("overwrite") \
 # .format("jdbc") \
 # .options(driver="org.postgresql.Driver",
-#         user="your_username",
-#         password="your_password",
+#         user=LOCAL_USER,
+#         password=LOCAL_PASSWORD,
 #         url="jdbc:postgresql://localhost:5432/fashion_forward",
 #         dbtable="members_spark"
 # ) \
@@ -80,8 +90,8 @@ df.write.mode("overwrite").parquet("test/temp_member_spend.parquet")
 # df_tablenames = spark.read \
 # .format("jdbc") \
 # .options(driver="org.postgresql.Driver",
-#          user="your_supabase_username",
-#          password="your_password",
+#          user=SUPABASE_USER,
+#          password=SUPABASE_PASSWORD,
 #          url="jdbc:postgresql://aws-0-eu-west-2.pooler.supabase.com:5432/postgres",
 #          query="""SELECT table_name FROM information_schema.tables 
 #                 WHERE table_schema = 'public'"""
@@ -92,8 +102,8 @@ df.write.mode("overwrite").parquet("test/temp_member_spend.parquet")
 # for table_name in df_tablenames.select("table_name").collect():
 #     df = spark.read.format("jdbc") \
 #         .options(driver="org.postgresql.Driver",
-#                 user="your_supabase_username",
-#                 password="your_password",
+#                 user=SUPABASE_USER,
+#                 password=SUPABASE_PASSWORD,
 #                 url="jdbc:postgresql://aws-0-eu-west-2.pooler.supabase.com:5432/postgres",
 #                 dbtable=table_name.table_name
 #                 ) \
@@ -101,8 +111,8 @@ df.write.mode("overwrite").parquet("test/temp_member_spend.parquet")
 
 #     df.write.mode("overwrite").format("jdbc") \
 #         .options(driver="org.postgresql.Driver",
-#         user="your_username",
-#         password="your_password",
+#         user=LOCAL_USER,
+#         password=LOCAL_PASSWORD,
 #         url="jdbc:postgresql://localhost:5432/fashion_forward",
 #         dbtable="spark_" + table_name.table_name
 #         ) \
@@ -112,12 +122,12 @@ df.write.mode("overwrite").parquet("test/temp_member_spend.parquet")
 # remember to comment out previous section
 # to test look at the tables in the database.
 
-# # get a list of table names from the database
+# get a list of table names from the database
 # df_tablenames = spark.read \
 # .format("jdbc") \
 # .options(driver="org.postgresql.Driver",
-#          user="your_supabase_username",
-#          password="your_password",
+#          user=SUPABASE_USER,
+#          password=SUPABASE_PASSWORD,
 #          url="jdbc:postgresql://aws-0-eu-west-2.pooler.supabase.com:5432/postgres",
 #          dbtable="information_schema.tables"
 #          ) \
@@ -127,8 +137,8 @@ df.write.mode("overwrite").parquet("test/temp_member_spend.parquet")
 # for table_name in df_tablenames.select("table_name").collect():
 #     df = spark.read.format("jdbc") \
 #         .options(driver="org.postgresql.Driver",
-#                 user="your_supabase_username",
-#                 password="your_password",
+#                 user=SUPABASE_USER,
+#                 password=SUPABASE_PASSWORD,
 #                 url="jdbc:postgresql://aws-0-eu-west-2.pooler.supabase.com:5432/postgres",
 #                 dbtable=table_name.table_name
 #                 ) \
@@ -186,8 +196,8 @@ df.write.mode("overwrite").parquet("test/temp_member_spend.parquet")
 
 #     df.write.mode("overwrite").format("jdbc") \
 #         .options(driver="org.postgresql.Driver",
-#         user="your_username",
-#         password="your_password",
+#         user=LOCAL_USER,
+#         password=LOCAL_PASSWORD,
 #         url="jdbc:postgresql://localhost:5432/fashion_forward",
 #         dbtable=query
 #         ) \
